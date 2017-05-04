@@ -1,5 +1,5 @@
 FROM alpine
-MAINTAINER <gaieges@gmail.com>
+MAINTAINER <evin@napsty.com>
 
 RUN apk update && \
     apk add -y py-pip apk-cron curl openssl bash && \
@@ -7,10 +7,6 @@ RUN apk update && \
     pip install awscli && \
     rm -rf /var/cache/apk/*
 
-ADD s3cfg /root/.s3cfg
+ADD app /app
 
-ADD start.sh /start.sh
-ADD backup.sh /backup.sh
-ADD restore.sh /restore.sh
-
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["/app/start.sh"]

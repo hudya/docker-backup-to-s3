@@ -16,7 +16,7 @@ CRON_SCHEDULE=${CRON_SCHEDULE:-3 5 * * *}
 case $1 in 
 
   backup-once)
-    exec /backup.sh
+    exec /app/backup.sh
     ;;
 
   schedule)
@@ -28,7 +28,7 @@ case $1 in
 
     # CRON_ENV="PARAMS='$PARAMS'\nDATA_PATH='$DATA_PATH'\nS3_PATH='$S3_PATH'\nPREFIX='$PREFIX'\nAES_PASSPHRASE='$AES_PASSPHRASE'"
     CRON_ENV="$(env)"
-    echo -e "$CRON_ENV\n\n$CRON_SCHEDULE /backup.sh"  > $CRONFILE
+    echo -e "$CRON_ENV\n\n$CRON_SCHEDULE /app/backup.sh"  > $CRONFILE
     crontab $CRONFILE
 
     exec crond -f
@@ -37,7 +37,7 @@ case $1 in
 
   restore)
     : ${VERSION:?"VERSION env variable is required"}
-    exec /restore.sh
+    exec /app/restore.sh
     ;;
 
   *)
