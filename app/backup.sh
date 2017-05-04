@@ -25,7 +25,7 @@ runbackup() {
   tar czf /tmp/$name  -C $DATA_PATH .
   openssl enc -aes-256-cbc -salt -k "${AES_PASSPHRASE}" -in /tmp/$name -out /tmp/$s3name
 
-  output=$( aws s3 cp "/tmp/$s3name" "$S3_PATH/$s3name" 2>&1 )
+  output=$( aws s3 cp $PARAMS "/tmp/$s3name" "$S3_PATH/$s3name" 2>&1 )
   code=$?
   if [ $code ]; then
       result="success"

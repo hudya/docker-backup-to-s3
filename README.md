@@ -35,7 +35,7 @@ docker run -d [options] hudya/backup-to-s3 backup-once|schedule|restore
 | -e WIPE_TARGET=false                               | restore               | no | Delete contents of target directory before restoring.
 | -e POST_RESTORE_COMMAND=cmd                        | restore               | no | Command to run (in the container) after successfully restoring.
 | -e VERSION=&lt;VERSION_TO_RESTORE&gt;              | restore               | yes | The version to restore, must be the full s3 object name without the `tgz.aes` suffix. | 
-| -e PARAMS="--dry-run"                              | all                   | no  | Parameters to pass to the s3 command. [(full list here)](http://s3tools.org/usage) | 
+| -e PARAMS="--dry-run"                              | all                   | no  | Parameters to pass to the s3 command. [(full list here)](http://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) | 
 | -e DATA_PATH=/data/                                | all                   | no  | Container's data folder. Default is `/data/`. Should end with trailing slash. | 
 | -e PREFIX=prefix                                   | backup-once, schedule | no  | Prefix to encrypted tgz file name. The basename is a date stamp with a tgz.aes suffix | 
 | -e CRON_SCHEDULE='5 3 \* \* \*'                    | schedule              | no  | Specifies when cron job runs, see [format](http://en.wikipedia.org/wiki/Cron). Default is 5 3 \* \* \*, runs every night at 03:05 |

@@ -13,12 +13,12 @@ s3obj="$VERSION.tgz.aes"
 tarfile="restore.tgz"
 
 
-if [ ! -z "${WIPE_TARGET}" ]; then
+if [[ ! -z "${WIPE_TARGET}" && "${DATA_PATH}" != "/" ]]; then
   find $DATA_PATH/ -mindepth 1 -delete
 fi
 
 
-output=$( aws s3 cp "${S3_PATH}/${s3obj}" "$DATA_PATH" 2>&1 )
+output=$( aws s3 cp $PARAMS "${S3_PATH}/${s3obj}" "$DATA_PATH" 2>&1 )
 code=$?
 if [ $code ]; then
   cd $DATA_PATH
