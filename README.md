@@ -1,7 +1,7 @@
 # hudya/backup-to-s3
 
 Docker container that periodically backups files to Amazon S3 using awscli and cron.
-All files will be tar:ed and encrypted with AES 256 CBC.
+All files will be tgz'd and encrypted with AES 256 CBC.
 
 **Always test to restore the files from the backup, before relying on it.**
 
@@ -49,14 +49,14 @@ Backup to S3 everyday at 12:00:
 
 ```bash
 docker run -d \
-	-e AWS_DEFAULT_REGION=eu-central-1 \
-	-e AWS_ACCESS_KEY_ID=myawskey \
-	-e AWS_SECRET_ACCESS_KEY=myawssecret \
-	-e S3_PATH=s3://my-bucket/backup/ \
-	-e AES_PASSPHRASE=secret \
-	-e CRON_SCHEDULE='0 12 * * *' \
-	-v /home/user/data:/data:ro \
-	hudya/backup-to-s3 schedule
+  -e AWS_DEFAULT_REGION=eu-central-1 \
+  -e AWS_ACCESS_KEY_ID=myawskey \
+  -e AWS_SECRET_ACCESS_KEY=myawssecret \
+  -e S3_PATH=s3://my-bucket/backup/ \
+  -e AES_PASSPHRASE=secret \
+  -e CRON_SCHEDULE='0 12 * * *' \
+  -v /home/user/data:/data:ro \
+  hudya/backup-to-s3 schedule
 ```
 
 
@@ -64,26 +64,25 @@ Backup once and then delete the container:
 
 ```bash
 docker run --rm \
-	-e AWS_DEFAULT_REGION=eu-central-1 \
-	-e AWS_ACCESS_KEY_ID=myawskey \
-	-e AWS_SECRET_ACCESS_KEY=myawssecret \
-	-e S3_PATH=s3://my-bucket/backup/ \
-	-e AES_PASSPHRASE=secret \
-	-v /home/user/data:/data:ro \
-	hudya/backup-to-s3 backup-once
+  -e AWS_DEFAULT_REGION=eu-central-1 \
+  -e AWS_ACCESS_KEY_ID=myawskey \
+  -e AWS_SECRET_ACCESS_KEY=myawssecret \
+  -e S3_PATH=s3://my-bucket/backup/ \
+  -e AES_PASSPHRASE=secret \
+  -v /home/user/data:/data:ro \
+  hudya/backup-to-s3 backup-once
 ```
 
 Restore the backup from `2016-04-11T07:25:30Z` and then delete the container:
 
 ```bash
 docker run --rm \
-	-e AWS_DEFAULT_REGION=eu-central-1 \
-	-e AWS_ACCESS_KEY_ID=myawskey \
-	-e AWS_SECRET_ACCESS_KEY=myawssecret \
-	-e S3_PATH=s3://my-bucket/backup/ \
-		-e AES_PASSPHRASE=secret \
-	-e VERSION=2016-04-11T07:25:30Z
-	-v /home/user/data:/data \
-	hudya/backup-to-s3 restore
-```     
-        
+  -e AWS_DEFAULT_REGION=eu-central-1 \
+  -e AWS_ACCESS_KEY_ID=myawskey \
+  -e AWS_SECRET_ACCESS_KEY=myawssecret \
+  -e S3_PATH=s3://my-bucket/backup/ \
+  -e AES_PASSPHRASE=secret \
+  -e VERSION=2016-04-11T07:25:30Z \
+  -v /home/user/data:/data \
+  hudya/backup-to-s3 restore
+```
