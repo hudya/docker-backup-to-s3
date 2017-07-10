@@ -38,6 +38,7 @@ docker run -d [options] hudya/backup-to-s3 backup-once|schedule|restore
 | -e PARAMS="--dry-run"                              | all                   | no  | Parameters to pass to the s3 command. [(full list here)](http://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) | 
 | -e DATA_PATH=/data/                                | all                   | no  | Container's data folder. Default is `/data/`. Should end with trailing slash. | 
 | -e PREFIX=prefix                                   | backup-once, schedule | no  | Prefix to encrypted tgz file name. The basename is a date stamp with a tgz.aes suffix | 
+| -e PRE_BACKUP_COMMAND=cmd                          | backup                | no | Command to run (in the container) before starting the zip and encryption process.
 | -e CRON_SCHEDULE='5 3 \* \* \*'                    | schedule              | no  | Specifies when cron job runs, see [format](http://en.wikipedia.org/wiki/Cron). Default is 5 3 \* \* \*, runs every night at 03:05 |
 | -v /path/to/backup:/data:ro                        | backup-once, schedule | yes | Mount target local folder to container's data folder. Content of this folder will be tar:ed, encrypted and uploaded to the S3 bucket. | 
 | -v /path/to/restore:/data                          | restore               | yes | Mount target local folder to container's data folder. The restored files from the S3 bucket will overwrite all files in the /path/to/restore folder. Note that the folder will not be emptied first, leaving any no overwritten files as is. |

@@ -3,7 +3,7 @@
 test -z $DEBUG || set -x
 
 dateISO() {
-  date -j -f "%s" $started -u  +"%Y-%m-%dT%H:%M:%SZ"
+  date -f "%s" $started -u  +"%Y-%m-%dT%H:%M:%SZ"
 }
 
 started=$(date +%s)

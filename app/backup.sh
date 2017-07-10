@@ -5,7 +5,7 @@ test -z $DEBUG || set -x
 
 
 dateISO() {
-  date -j -f "%s" $started -u  +"%Y-%m-%dT%H:%M:%SZ"
+  date -u  +"%Y-%m-%dT%H:%M:%SZ"
 }
 
 
@@ -21,6 +21,13 @@ runbackup() {
       name="$startedAt.tgz"
   fi
   s3name=$name.aes
+
+  # run pre-backup command if specified
+  if [ ! -z "$PRE_BACKUP_COMMAND" ]; then
+    printf "{\"backup\":{\"state\":\"pre-backup\", \"startedAt\":\"%s\", \"message\":\"%s\"}}\n" "$(dateISO)" "Running pre-backup command: $PRE_BACKUP_COMMAND"
+    pre_cmd_output="$(eval $PRE_BACKUP_COMMAND 2>&1)"
+    printf "{\"backup\":{\"state\":\"pre-backup-command-run\", \"result\": \"%s\", \"exit-code\":\"%s\"}}\n" "$pre_cmd_output" "$?"
+  fi
 
   tar czf /tmp/$name  -C $DATA_PATH .
   openssl enc -aes-256-cbc -salt -k "${AES_PASSPHRASE}" -in /tmp/$name -out /tmp/$s3name
@@ -39,7 +46,7 @@ runbackup() {
   finished=$(date +%s)
   duration=$(( finished - started ))
 
-  printf "{\"backup\": { \"state\":\"%s\" \"startedAt\":\"%s\", \"duration\":\"%i seconds\", \"name\":\"%s/%s\", \"output\":\"%s\"}}\n"  "$result" "$startedAt" "$duration" "$S3_PATH" "$s3name" "$output"
+  printf "{\"backup\":{\"state\":\"%s\" \"startedAt\":\"%s\", \"duration\":\"%i seconds\", \"name\":\"%s/%s\", \"output\":\"%s\"}}\n"  "$result" "$startedAt" "$duration" "$S3_PATH" "$s3name" "$output"
 }
 
 
