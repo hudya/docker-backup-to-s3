@@ -23,7 +23,7 @@ code=$?
 if [ $code ]; then
   cd $DATA_PATH
 
-  openssl aes-256-cbc -k "${AES_PASSPHRASE}" -in $s3obj -out $tarfile -d
+  openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100100 -k "${AES_PASSPHRASE}" -in $s3obj -out $tarfile -d
   ssl_code=$?
   tar xzf $tarfile
   tar_code=$?

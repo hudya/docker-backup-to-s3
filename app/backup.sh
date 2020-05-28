@@ -30,7 +30,7 @@ runbackup() {
   fi
 
   tar czf /tmp/$name  -C $DATA_PATH .
-  openssl enc -aes-256-cbc -salt -k "${AES_PASSPHRASE}" -in /tmp/$name -out /tmp/$s3name
+  openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100100 -salt -k "${AES_PASSPHRASE}" -in /tmp/$name -out /tmp/$s3name
 
   output=$( aws s3 cp $PARAMS "/tmp/$s3name" "$S3_PATH/$s3name" 2>&1 )
   code=$?
