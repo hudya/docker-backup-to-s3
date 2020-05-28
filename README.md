@@ -9,7 +9,7 @@ All files will be tgz'd and encrypted with AES 256 CBC.
 To decrypt resulting s3 object 2016-04-11T07:25:30Z.tgz.aes:
  
  ```
-openssl aes-256-cbc -k <PASSPHRASE> -in 2016-04-11T07:25:30Z.tgz.aes -out restore.tgz -d
+openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100100 -pass "pass:${AES_PASSPHRASE}" -in 2016-04-11T07:25:30Z.tgz.aes -out restore.tgz -d
 tar xf restore.tgz
 ```
 

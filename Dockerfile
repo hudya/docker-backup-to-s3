@@ -1,5 +1,5 @@
-FROM alpine
-MAINTAINER <evin@napsty.com>
+FROM docker.io/library/python:alpine
+MAINTAINER <josiah.ritchie@gmail.com>
 
 RUN apk update && \
     apk add py-pip apk-cron curl openssl bash && \
